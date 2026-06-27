@@ -15,14 +15,20 @@ from rich.text import Text
 
 console = Console()
 
+VERAND_LOGO = r"""
+ _    ____________  ___    _   ______     _______  _________________  ____ 
+| |  / / ____/ __ \/   |  / | / / __ \   / ___/\ \/ / ___/_  __/ __ \/ __ \
+| | / / __/ / /_/ / /| | /  |/ / / / /   \__ \  \  /\__ \ / / / / / / /_/ /
+| |/ / /___/ _, _/ ___ |/ /|  / /_/ /   ___/ /  / /___/ // / / /_/ / _, _/ 
+|___/_____/_/ |_/_/  |_/_/ |_/_____/   /____/  /_//____//_/  \____/_/ |_|  
+"""
+
 def get_header():
-    logo = r"""____   ____                               .__ 
-\   \ /   /___________  ____    ____    __|  |
- \   Y   // __ \_  __ \/  _ \  /    \  / __  |
-  \     /\  ___/|  | \(  <_> )|   |  \/ /_/  |
-   \___/  \___  >__|   \____/ |___|  /\____  |
-              \/                   \/      \/ """
-    return Panel(Align.center(Text(logo, style="bold red")), border_style="red", box=box.ROUNDED)
+    return Panel(
+        Align.center(Text(VERAND_LOGO, style="bold cyan")), 
+        border_style="cyan", 
+        box=box.ROUNDED
+    )
 
 def get_system_info():
     table = Table(box=box.SIMPLE, show_header=False, expand=True)
@@ -165,7 +171,7 @@ def get_temp_info():
 def generate_dashboard():
     layout = Layout()
     layout.split_column(
-        Layout(name="header", size=9),
+        Layout(name="header", size=8),
         Layout(name="upper", ratio=1),
         Layout(name="lower", ratio=2)
     )
@@ -188,18 +194,9 @@ def generate_dashboard():
 
 def show_logo():
     os.system("cls" if os.name == "nt" else "clear")
-    logo = r"""
-____   ____                               .__ 
-\   \ /   /___________  ____    ____    __|  |
- \   Y   // __ \_  __ \/  _ \  /    \  / __  |
-  \     /\  ___/|  | \(  <_> )|   |  \/ /_/  |
-   \___/  \___  >__|   \____/ |___|  /\____  |
-              \/                   \/      \/ 
-    """
-    
     console.print("\n" * 3)
-    console.print(Align.center(Text(logo, style="bold red")))
-    console.print(Align.center(Text("S Y S T E M   M O N I T O R", style="bold yellow")))
+    console.print(Align.center(Text(VERAND_LOGO, style="bold cyan")))
+    console.print(Align.center(Text("P R O F E S S I O N A L   S Y S T E M   M O N I T O R", style="bold yellow")))
     console.print("\n")
     console.print(Align.center(Text("Akses Diterima. Menginisialisasi sistem...", style="bold green")))
     time.sleep(2.5)
@@ -208,20 +205,11 @@ def login_screen():
     # Menjeda sebentar agar terminal buffer tenang
     time.sleep(0.2)
     
-    logo = r"""
-____   ____                               .__ 
-\   \ /   /___________  ____    ____    __|  |
- \   Y   // __ \_  __ \/  _ \  /    \  / __  |
-  \     /\  ___/|  | \(  <_> )|   |  \/ /_/  |
-   \___/  \___  >__|   \____/ |___|  /\____  |
-              \/                   \/      \/ 
-    """
-    
     while True:
         os.system("cls" if os.name == "nt" else "clear")
         console.print("\n")
-        console.print(Align.center(Text(logo, style="bold red")))
-        console.print(Align.center(Text("S Y S T E M   M O N I T O R", style="bold yellow")))
+        console.print(Align.center(Text(VERAND_LOGO, style="bold cyan")))
+        console.print(Align.center(Text("P R O F E S S I O N A L   S Y S T E M   M O N I T O R", style="bold yellow")))
         console.print("\n")
         console.print(Align.center(Panel.fit("[bold blue]SYS-MONITOR AUTHENTICATION[/bold blue]", border_style="blue")))
         console.print("\n")
