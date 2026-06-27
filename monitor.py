@@ -187,7 +187,7 @@ def generate_dashboard():
     return layout
 
 def show_logo():
-    console.clear()
+    os.system("cls" if os.name == "nt" else "clear")
     logo = r"""
 ____   ____                               .__ 
 \   \ /   /___________  ____    ____    __|  |
@@ -208,9 +208,21 @@ def login_screen():
     # Menjeda sebentar agar terminal buffer tenang
     time.sleep(0.2)
     
+    logo = r"""
+____   ____                               .__ 
+\   \ /   /___________  ____    ____    __|  |
+ \   Y   // __ \_  __ \/  _ \  /    \  / __  |
+  \     /\  ___/|  | \(  <_> )|   |  \/ /_/  |
+   \___/  \___  >__|   \____/ |___|  /\____  |
+              \/                   \/      \/ 
+    """
+    
     while True:
-        console.clear()
-        console.print("\n" * 2)
+        os.system("cls" if os.name == "nt" else "clear")
+        console.print("\n")
+        console.print(Align.center(Text(logo, style="bold red")))
+        console.print(Align.center(Text("S Y S T E M   M O N I T O R", style="bold yellow")))
+        console.print("\n")
         console.print(Align.center(Panel.fit("[bold blue]SYS-MONITOR AUTHENTICATION[/bold blue]", border_style="blue")))
         console.print("\n")
         
@@ -253,7 +265,7 @@ def main():
                 time.sleep(0.5)
                 live.update(generate_dashboard())
         except KeyboardInterrupt:
-            console.clear()
+            os.system("cls" if os.name == "nt" else "clear")
 
 if __name__ == "__main__":
     main()
