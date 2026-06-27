@@ -287,8 +287,9 @@ def make_layout():
     layout = Layout()
     layout.split_column(
         Layout(name="header", size=8),
-        Layout(name="upper", ratio=2),  # Diubah menjadi 2 agar panel atas lebih tinggi
-        Layout(name="lower", ratio=1)   # Diubah menjadi 1
+        Layout(name="upper", ratio=2),
+        Layout(name="lower", ratio=1),
+        Layout(name="footer", size=1)  # Spacer bawah untuk mencegah bug scroll di Windows Terminal
     )
     layout["upper"].split_row(
         Layout(name="sys_info", ratio=2),
@@ -299,6 +300,7 @@ def make_layout():
         Layout(name="disk", ratio=2),
         Layout(name="temp", ratio=1)
     )
+    # Footer dibiarkan kosong
     return layout
 
 def update_layout(layout):
@@ -367,12 +369,13 @@ def main():
     dashboard_layout = make_layout()
     update_layout(dashboard_layout)
     
-    # screen=True prevents command prompt overlap, refresh_per_second syncing reduces flicker
-    with Live(dashboard_layout, refresh_per_second=2, screen=True) as live:
+    # Menggunakan auto_refresh=False untuk menghindari race condition (berkedip)
+    with Live(dashboard_layout, auto_refresh=False, screen=True) as live:
         try:
             while True:
                 time.sleep(0.5)
                 update_layout(dashboard_layout)
+                live.refresh()
         except KeyboardInterrupt:
             os.system("cls" if os.name == "nt" else "clear")
 
