@@ -12,6 +12,9 @@ if /I "%ARG1%"=="run" (
     ) else if /I "%ARG2%"=="dev" (
         python "c:\Users\verand\dev\systor\monitor.py"
         goto :eof
+    ) else if /I "%ARG2%"=="crypto" (
+        python "c:\Users\verand\dev\systor\monitor.py"
+        goto :eof
     ) else (
         echo.
         echo [Verand CLI] Error: Sub-perintah tidak dikenali.
@@ -36,7 +39,8 @@ echo =======================================================
 echo Penggunaan: verand ^<command^> [options]
 echo.
 echo Available Commands (Perintah):
-echo   run systor    : Membuka tampilan System Monitor (Dashboard)
+echo   run systor    : Membuka Menu Utama (System ^& Crypto)
+echo   run crypto    : Membuka Menu Utama langsung
 echo   run dev       : Membuka System Monitor mode Development
 echo   start         : Alias cepat untuk menjalankan layanan utama
 echo   help          : Menampilkan panduan baris perintah ini

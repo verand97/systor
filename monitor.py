@@ -14,6 +14,7 @@ from rich import box
 from rich.align import Align
 from rich.console import Console
 from rich.text import Text
+import crypto_monitor
 
 console = Console()
 
@@ -362,14 +363,12 @@ def login_screen():
             console.print("\n        [bold red]Akses Ditolak. Username atau Password salah.[/bold red]")
             time.sleep(1.5)
 
-def main():
-    login_screen()
+def run_system_monitor():
     psutil.cpu_percent()
     
     dashboard_layout = make_layout()
     update_layout(dashboard_layout)
     
-    # Menggunakan auto_refresh=False untuk menghindari race condition (berkedip)
     with Live(dashboard_layout, auto_refresh=False, screen=True) as live:
         try:
             while True:
@@ -377,7 +376,62 @@ def main():
                 update_layout(dashboard_layout)
                 live.refresh()
         except KeyboardInterrupt:
+            pass
+
+def run_crypto_monitor():
+    crypto_layout = crypto_monitor.make_crypto_layout()
+    crypto_monitor.update_crypto_layout(crypto_layout, get_header())
+    
+    with Live(crypto_layout, auto_refresh=False, screen=True) as live:
+        try:
+            while True:
+                time.sleep(1)
+                crypto_monitor.update_crypto_layout(crypto_layout, get_header())
+                live.refresh()
+        except KeyboardInterrupt:
+            pass
+
+def main_menu():
+    while True:
+        os.system("cls" if os.name == "nt" else "clear")
+        console.print("\n" * 3)
+        console.print(Align.center(Text(VERAND_LOGO, style="bold cyan")))
+        console.print(Align.center(Text("M A I N   M E N U   -   S Y S T O R", style="bold yellow")))
+        console.print("\n")
+        
+        table = Table(box=box.ROUNDED, border_style="blue", show_header=False)
+        table.add_column("No", style="bold cyan", justify="right")
+        table.add_column("Modul", style="white")
+        
+        table.add_row("1.", "Monitor Sistem (PC & Hardware)")
+        table.add_row("2.", "Monitor Crypto & Saham (Live)")
+        table.add_row("3.", "Keluar")
+        
+        console.print(Align.center(table))
+        console.print("\n")
+        
+        # Pindahkan kursor ke tengah bawah
+        console.print(Align.center("        [bold cyan]Pilih modul sistem (1-3):[/bold cyan] "), end="")
+        try:
+            choice = input().strip()
+            if choice == "1":
+                run_system_monitor()
+            elif choice == "2":
+                console.print(Align.center("\n[bold yellow]Memuat Data Market...[/bold yellow]"))
+                time.sleep(1) # wait for first fetch
+                run_crypto_monitor()
+            elif choice == "3":
+                console.print(Align.center("\n[bold green]Keluar dari sistem...[/bold green]"))
+                time.sleep(1)
+                os.system("cls" if os.name == "nt" else "clear")
+                break
+        except KeyboardInterrupt:
             os.system("cls" if os.name == "nt" else "clear")
+            break
+
+def main():
+    login_screen()
+    main_menu()
 
 if __name__ == "__main__":
     main()
